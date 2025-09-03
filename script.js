@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function openProductModal(card) {
       if (!card) return;
       const title = card.dataset.title || 'Product Details';
-      const img = card.dataset.img || 'assets/images/RBBMarketingLogo.png';
+      const img = card.dataset.img || 'assets/images/logo.png';
       const desc = card.dataset.desc || 'No description available.';
 
       modalImg.src = img;
@@ -430,11 +430,11 @@ document.addEventListener('DOMContentLoaded', function() {
     );
 
     if (!isProgramBuilder1Flow) {
-      // If not Program Builder 1 flow, fall back to localStorage check
-      let selectedFeatures = [];
+      // If not Program Builder 2 flow, fall back to localStorage check
+      let selectedFeatures2 = [];
       try {
-        const stored = localStorage.getItem('selectedFeatures');
-        if (stored) selectedFeatures = JSON.parse(stored);
+        const stored2 = localStorage.getItem('selectedFeatures2');
+        if (stored2) selectedFeatures2 = JSON.parse(stored2);
       } catch (e) {
         console.error('Error reading localStorage:', e);
         return;
@@ -442,7 +442,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       buttons.forEach(button => {
           const featureName = button.dataset.featureName;
-          if (selectedFeatures.includes(featureName)) {
+          if (selectedFeatures2.includes(featureName)) {
               button.innerHTML = '<i class="fas fa-check-circle"></i> Added - View Program';
               button.classList.add('btn-added');
               button.style.backgroundColor = '';
@@ -606,8 +606,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isAlreadyAdded) {
           modalAddToProgram.innerHTML = '✓ Added';
           modalAddToProgram.disabled = true;
-          modalAddToProgram.style.setProperty('background-color', '#23456C', 'important');
-          modalAddToProgram.style.setProperty('border-color', '#23456C', 'important');
+          modalAddToProgram.style.setProperty('background-color', '#66BFE5', 'important');
+          modalAddToProgram.style.setProperty('border-color', '#66BFE5', 'important');
           modalAddToProgram.style.setProperty('color', 'white', 'important');
           modalAddToProgram.style.setProperty('opacity', '1', 'important');
         } else {
@@ -866,7 +866,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const productCard = document.createElement('div');
                 productCard.className = 'modal-product-card';
                 productCard.innerHTML = `
-                  <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/RBBMarketingLogo.png'">
+                  <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
                   <h4>${product.name}</h4>
                 `;
                 modalProductsGrid.appendChild(productCard);
@@ -901,7 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
                   <div class="modal-customize-grid">
                     ${feature.customizeProducts.map(product => `
                       <div class="modal-product-card">
-                        <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/RBBMarketingLogo.png'">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
                         <h4>${product.name}</h4>
                       </div>
                     `).join('')}
@@ -928,8 +928,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalAddToProgram.innerHTML = '<i class="fas fa-check"></i> Added';
                 modalAddToProgram.classList.add('added');
                 modalAddToProgram.disabled = true;
-                modalAddToProgram.style.setProperty('background-color', '#23456C', 'important');
-                modalAddToProgram.style.setProperty('border-color', '#23456C', 'important');
+                modalAddToProgram.style.setProperty('background-color', '#66BFE5', 'important');
+                modalAddToProgram.style.setProperty('border-color', '#66BFE5', 'important');
                 modalAddToProgram.style.setProperty('color', 'white', 'important');
                 modalAddToProgram.style.setProperty('opacity', '1', 'important');
               }
@@ -1419,7 +1419,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if(planSummarySection) {
-            const summaryLogo = `<img src="assets/images/RBBMarketingLogo.png" alt="StayVisible Logo" style="max-width: 200px; margin-bottom: 20px;">`;
+            const summaryLogo = `<img src="assets/images/logo.png" alt="StayVisible Logo" style="max-width: 200px; margin-bottom: 20px;">`;
             const whatsNext = `
                 <h3>What's Next:</h3>
                 <ul>
@@ -2173,7 +2173,7 @@ document.addEventListener('DOMContentLoaded', function() {
               const productCard = document.createElement('div');
               productCard.className = 'modal-product-card';
               productCard.innerHTML = `
-                <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/RBBMarketingLogo.png'">
+                <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
                 <h4>${product.name}</h4>
               `;
               modalProductsGrid.appendChild(productCard);
@@ -2208,7 +2208,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="modal-customize-grid">
                   ${feature.customizeProducts.map(product => `
                     <div class="modal-product-card">
-                      <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/RBBMarketingLogo.png'">
+                      <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
                       <h4>${product.name}</h4>
                     </div>
                   `).join('')}
@@ -2365,9 +2365,14 @@ document.addEventListener('DOMContentLoaded', function() {
                       updateProgramStrength();
                       saveCanvasState();
 
-                      // Close modal
+                      // Close modal without triggering scroll
+                      const scrollY = window.scrollY;
                       modal.style.display = 'none';
                       document.body.style.overflow = 'auto';
+                      // Prevent any automatic scrolling after modal close
+                      setTimeout(() => {
+                        window.scrollTo(0, scrollY);
+                      }, 0);
 
                       // Clear form for next custom feature
                       nameInput.value = '';
@@ -2396,16 +2401,26 @@ document.addEventListener('DOMContentLoaded', function() {
       // Close modal functionality
       if (modalClose) {
         modalClose.addEventListener('click', function() {
+          const scrollY = window.scrollY;
           modal.style.display = 'none';
           document.body.style.overflow = 'auto';
+          // Prevent any automatic scrolling after modal close
+          setTimeout(() => {
+            window.scrollTo(0, scrollY);
+          }, 0);
         });
       }
 
              // Close modal when clicking outside
        modal.addEventListener('click', function(e) {
          if (e.target === modal) {
+           const scrollY = window.scrollY;
            modal.style.display = 'none';
            document.body.style.overflow = 'auto';
+           // Prevent any automatic scrolling after modal close
+           setTimeout(() => {
+             window.scrollTo(0, scrollY);
+           }, 0);
          }
        });
 
@@ -2465,9 +2480,14 @@ document.addEventListener('DOMContentLoaded', function() {
              }, 100);
            }
 
-           // Close modal after adding
+           // Close modal after adding without triggering scroll
+           const scrollY = window.scrollY;
            modal.style.display = 'none';
            document.body.style.overflow = 'auto';
+           // Prevent any automatic scrolling after modal close
+           setTimeout(() => {
+             window.scrollTo(0, scrollY);
+           }, 0);
          });
        }
      }
